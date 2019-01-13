@@ -1,5 +1,6 @@
 {
     "name": "nickmole/JsonApiRequest",
+    "version" : "0.1.0",
     "description": "Request Json Api using PHP Curl",
     "license": "MIT",
     "authors": [
@@ -8,7 +9,9 @@
             "email": "nmole065@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "php": ">=7.1"
+    },
     "autoload": {
          "classmap": [
             "src/"
