@@ -1,6 +1,6 @@
 {
-    "name": "nickmole/JsonApiRequest",
-    "version" : "0.1.0",
+    "name": "nicholasmole/jsonapirequest",
+    "version" : "0.1.1",
     "description": "Request Json Api using PHP Curl",
     "license": "MIT",
     "authors": [
@@ -13,7 +13,13 @@
         "php": ">=7.1"
     },
     "autoload": {
-         "classmap": [
+        "psr-4": {
+            "NicholasMole\\JsonApiRequest\\": "src/"
+        },
+        "files": [
+            "src/JsonApiRequest.php"
+        ],
+        "classmap": [
             "src/"
         ]
     },
