@@ -1,11 +1,11 @@
 {
-    "name": "nickmole/php-unit_1",
-    "description": "PHP UNIT TEST 1",
+    "name": "nickmole/JsonApiRequest",
+    "description": "Request Json Api using PHP Curl",
     "license": "MIT",
     "authors": [
         {
             "name": "Nick Mole",
-            "email": "nmole065@g.rwu.edu"
+            "email": "nmole065@gmail.com"
         }
     ],
     "require": {},
