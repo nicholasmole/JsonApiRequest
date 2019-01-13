@@ -6,46 +6,67 @@ use PHPUnit\Framework\TestCase;
 /**
  * JsonApiRequestTest
  * 
- * @author     Nicholas Mole
+ * Test Json Api Requests
+ * 
+ * @author Nicholas Mole
  */
 final class JsonApiRequestTest extends TestCase
 {
-    public function testJsonApiRequestCanBeConstructed(): void
-    {
-        $this->assertInstanceOf(
-            JsonApiRequest::class,
-            JsonApiRequest::request('https://jsonplaceholder.typicode.com/todos/1')
-        );
-    }
-
+    /**
+    * testJsonApiRequestReceivedInvalidNonStringValue
+    * 
+    * Expect JsonApiRequest to return a TypeError if
+    * constructed with a none string argument.
+    */
     public function testJsonApiRequestReceivedInvalidNonStringValue(): void
     {
-        $this->assertInstanceOf(
-            JsonApiRequest::class,
-            JsonApiRequest::request(1)
+        $this->expectException(TypeError::class);
+
+        new JsonApiRequest(1);
+    }
+
+    /**
+    * testRequestResultsInResponse
+    * 
+    * Expect JsonApiRequest to return fetch response from 
+    * 'https://jsonplaceholder.typicode.com/todos/1'
+    * 
+    * (jsonplaceholder is a fake online REST API for testing)
+    */
+
+    public function testRequestResultsInResponse(): void
+    {
+
+        $expectedResult = '{"userId":1,"id":1,"title":"delectusautautem","completed":false}';
+
+        $resultsFromRequest = new JsonApiRequest('https://jsonplaceholder.typicode.com/todos/1');
+   
+        $testResults = preg_replace('/\n|\ /', '',  $resultsFromRequest->getResult());
+        $this->assertContains(
+            $expectedResult,
+            $testResults
         );
     }
 
-    public function testRequestResultInValidArrayOrObject(): void
-    {
-        $expectedResult = array(
-            "userId" => 1,
-            "id" => 1,
-            "title" => "delectus aut autem",
-            "completed" => false
-        );
-        $this->assertEquals(
-            'user@example.com',
-            JsonApiRequest::request('user@example.com')
-        );
-    }
+    /**
+    * testRequestResultsInNoResults
+    * 
+    * Expect JsonApiRequest to fail. Upon failure return
+    * the string "Curl request failed. Please check API route";
+    *
+    * (Upon failure curl_exec returns fa;se)
+    */
 
-    public function testRequestResultsInError(): void
+    public function testRequestResultsInNoResults(): void
     {
-        
-        $this->expectException(InvalidArgumentException::class);
+        $resultsFromRequest = new JsonApiRequest('https://error');
 
-        JsonApiRequest::request('https://error');
+        $expectedFailedResult = "Curl request failed. Please check API route";
+
+        $this->assertContains(
+            $expectedFailedResult,
+            $resultsFromRequest->getResult()
+        );
     }
 }
 
